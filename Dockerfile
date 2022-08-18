@@ -1,11 +1,10 @@
 FROM openjdk:8
 
-MAINTAINER Luan luan.m.paschoal@gmail.com
-LABEL Pentaho='Server 9.0 com drivers postgres e oracle'
-
+MAINTAINER crocha1783@gmail.com
+LABEL Pentaho='Server 9.3 com drivers postgres'
 # Init ENV
-ENV BISERVER_VERSION 9.0
-ENV BISERVER_TAG 9.0.0.0-423
+ENV BISERVER_VERSION 9.3
+ENV BISERVER_TAG 9.3.0.0-428
 ENV PENTAHO_HOME /opt/pentaho
 
 # Apply JAVA_HOME
@@ -26,7 +25,7 @@ RUN mkdir ${PENTAHO_HOME}; useradd -s /bin/bash -d ${PENTAHO_HOME} pentaho; chow
 # Disable first-time startup prompt
 # Disable daemon mode for Tomcat
 RUN /usr/bin/wget --progress=dot:giga \
-"http://downloads.sourceforge.net/project/pentaho/Pentaho%20${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip" \
+"http://sonik.dl.sourceforge.net/project/pentaho/Pentaho-${BISERVER_VERSION}/server/pentaho-server-ce-${BISERVER_TAG}.zip" \
 -O /tmp/pentaho-server-ce-${BISERVER_TAG}.zip; \
 /usr/bin/unzip -q /tmp/pentaho-server-ce-${BISERVER_TAG}.zip -d $PENTAHO_HOME; \
 rm -f /tmp/pentaho-server-ce-${BISERVER_TAG}.zip $PENTAHO_HOME/pentaho-server/promptuser.sh; \
@@ -43,7 +42,7 @@ USER pentaho
 
 WORKDIR /opt/pentaho
 
-EXPOSE 8080 8009
+EXPOSE 8089 8009
 
 CMD ["sh", "/opt/pentaho/pentaho-server/start-pentaho.sh"]
 #ENTRYPOINT ["sh", "-c", "$PENTAHO_HOME/pentaho-server/scripts/run.sh"]
